@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmos Craft ✦</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #06060f;
+    --panel: #0d0d1f;
+    --panel2: #11112a;
+    --border: #2a2a5a;
+    --accent: #7c5cfc;
+    --accent2: #fc5cf0;
+    --gold: #f0c040;
+    --teal: #40f0d0;
+    --text: #e8e8ff;
+    --dim: #8888bb;
+    --glow: rgba(124,92,252,0.35);
+    --glow2: rgba(252,92,240,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Raleway', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(124,92,252,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(252,92,240,0.06) 0%, transparent 60%);
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: rgba(13,13,31,0.95);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--accent2), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+    text-shadow: none;
+  }
+
+  .logo span { font-size: 0.8em; }
+
+  .stats {
+    display: flex;
+    gap: 18px;
+    font-size: 0.8rem;
+    color: var(--dim);
+  }
+
+  .stat-val {
+    color: var(--gold);
+    font-weight: 600;
+    margin-left: 4px;
+  }
+
+  .header-btns {
+    display: flex;
+    gap: 8px;
+  }
+
+  .hbtn {
+    background: rgba(124,92,252,0.15);
+    border: 1px solid var(--border);
+    color: var(--dim);
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-family: 'Raleway', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .hbtn:hover {
+    background: rgba(124,92,252,0.3);
+    color: var(--text);
+    border-color: var(--accent);
+  }
+
+  .hbtn.danger:hover {
+    background: rgba(252,80,80,0.3);
+    color: #ff8888;
+    border-color: #ff5555;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    gap: 0;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-header {
+    padding: 10px 14px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--dim);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .count-badge {
+    background: var(--accent);
+    color: white;
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+
+  .search-wrap {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .search-input {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    font-family: 'Raleway', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--dim); }
+
+  .elements-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .elements-list::-webkit-scrollbar { width: 4px; }
+  .elements-list::-webkit-scrollbar-track { background: transparent; }
+  .elements-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .element-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid transparent;
+    cursor: grab;
+    user-select: none;
+    transition: all 0.15s;
+    font-size: 0.8rem;
+    position: relative;
+  }
+
+  .element-chip:hover {
+    background: rgba(124,92,252,0.15);
+    border-color: rgba(124,92,252,0.4);
+    transform: translateX(2px);
+  }
+
+  .element-chip.new-glow {
+    animation: newItem 1.5s ease-out;
+  }
+
+  @keyframes newItem {
+    0% { background: rgba(240,192,64,0.3); border-color: var(--gold); box-shadow: 0 0 12px rgba(240,192,64,0.4); }
+    100% { background: rgba(255,255,255,0.04); border-color: transparent; box-shadow: none; }
+  }
+
+  .el-emoji { font-size: 1.1rem; line-height: 1; }
+
+  .el-name {
+    flex: 1;
+    font-weight: 500;
+    color: var(--text);
+    font-size: 0.78rem;
+  }
+
+  .el-tier {
+    font-size: 0.6rem;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .tier-1 { background: rgba(100,100,100,0.3); color: #aaa; }
+  .tier-2 { background: rgba(64,200,160,0.2); color: var(--teal); }
+  .tier-3 { background: rgba(124,92,252,0.25); color: #b8a0ff; }
+  .tier-4 { background: rgba(240,192,64,0.25); color: var(--gold); }
+  .tier-5 { background: rgba(252,92,240,0.25); color: var(--accent2); }
+
+  /* CANVAS */
+  .canvas-wrap {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(124,92,252,0.04) 0%, transparent 70%);
+  }
+
+  .canvas-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: rgba(136,136,187,0.3);
+    pointer-events: none;
+    transition: opacity 0.5s;
+    font-size: 0.85rem;
+  }
+
+  .canvas-hint .big { font-size: 3rem; margin-bottom: 10px; }
+
+  #canvas {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  /* DRAGGABLE ELEMENTS ON CANVAS */
+  .canvas-el {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px 8px;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: grab;
+    user-select: none;
+    transition: box-shadow 0.15s, border-color 0.15s;
+    min-width: 70px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    z-index: 10;
+  }
+
+  .canvas-el:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 24px var(--glow);
+    z-index: 20;
+  }
+
+  .canvas-el.dragging {
+    opacity: 0.85;
+    cursor: grabbing;
+    z-index: 1000;
+    box-shadow: 0 8px 40px var(--glow);
+    border-color: var(--accent);
+    transform: scale(1.06);
+    transition: none;
+  }
+
+  .canvas-el.merging {
+    animation: mergeFlash 0.5s ease-out;
+    border-color: var(--gold);
+  }
+
+  @keyframes mergeFlash {
+    0% { transform: scale(1.2); box-shadow: 0 0 40px rgba(240,192,64,0.8); }
+    100% { transform: scale(1); box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+  }
+
+  .canvas-el .cel-emoji { font-size: 1.6rem; line-height: 1; }
+  .canvas-el .cel-name {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--dim);
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .canvas-el .del-btn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 16px;
+    height: 16px;
+    background: rgba(255,80,80,0.8);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 0.65rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .canvas-el:hover .del-btn { display: flex; }
+
+  /* LOADING OVERLAY ON CANVAS */
+  .merge-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6,6,15,0.7);
+    z-index: 500;
+    backdrop-filter: blur(2px);
+  }
+
+  .merge-overlay.active { display: flex; }
+
+  .merge-spinner {
+    text-align: center;
+    color: var(--text);
+  }
+
+  .spinner-ring {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-right-color: var(--accent2);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 12px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .merge-text {
+    font-size: 0.85rem;
+    color: var(--dim);
+  }
+
+  .merge-elements {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+
+  /* RESULT POPUP */
+  .result-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+    background: var(--panel);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    padding: 30px 40px;
+    text-align: center;
+    z-index: 2000;
+    box-shadow: 0 0 60px rgba(240,192,64,0.3), 0 20px 60px rgba(0,0,0,0.8);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    min-width: 220px;
+  }
+
+  .result-popup.show {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .result-popup.first-discovery {
+    border-color: var(--accent2);
+    box-shadow: 0 0 80px rgba(252,92,240,0.4), 0 20px 60px rgba(0,0,0,0.8);
+  }
+
+  .popup-badge {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .popup-badge.first { color: var(--accent2); }
+
+  .popup-emoji { font-size: 3rem; margin-bottom: 8px; }
+  .popup-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .popup-desc {
+    font-size: 0.78rem;
+    color: var(--dim);
+    line-height: 1.5;
+    max-width: 200px;
+  }
+
+  .popup-close {
+    margin-top: 16px;
+    background: var(--accent);
+    border: none;
+    color: white;
+    padding: 8px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    transition: background 0.2s;
+  }
+
+  .popup-close:hover { background: var(--accent2); }
+
+  /* PARTICLES */
+  .particle {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: 1500;
+    animation: particleFly var(--dur) ease-out forwards;
+  }
+
+  @keyframes particleFly {
+    0% { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(60px);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--dim);
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    transition: transform 0.3s;
+    z-index: 3000;
+    pointer-events: none;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* CLEAR CANVAS BTN */
+  .canvas-tools {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: flex;
+    gap: 6px;
+    z-index: 50;
+  }
+
+  .ctool {
+    background: rgba(13,13,31,0.9);
+    border: 1px solid var(--border);
+    color: var(--dim);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: 'Raleway', sans-serif;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+  }
+
+  .ctool:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  /* STARS BG */
+  .stars {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle var(--dur) var(--delay) ease-in-out infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: var(--max-op); transform: scale(1); }
+  }
+
+  /* TIER FILTER */
+  .tier-filters {
+    padding: 6px 8px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tier-btn {
+    font-size: 0.6rem;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--dim);
+    cursor: pointer;
+    font-family: 'Raleway', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .tier-btn.active {
+    background: rgba(124,92,252,0.2);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+</style>
+</head>
+<body>
+
+<!-- Stars background -->
+<div class="stars" id="stars"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">✦ COSMOS CRAFT</div>
+  <div class="stats">
+    <span>Elements: <span class="stat-val" id="stat-count">4</span></span>
+    <span>Discoveries: <span class="stat-val" id="stat-disc">0</span></span>
+    <span>Rarest: <span class="stat-val" id="stat-rare">—</span></span>
+  </div>
+  <div class="header-btns">
+    <button class="hbtn" onclick="exportSave()">💾 Save</button>
+    <button class="hbtn" onclick="importSave()">📂 Load</button>
+    <button class="hbtn danger" onclick="resetGame()">↺ Reset</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      Elements <span class="count-badge" id="el-count">4</span>
+    </div>
+    <div class="search-wrap">
+      <input class="search-input" id="search" placeholder="🔍 Search…" oninput="filterElements()">
+    </div>
+    <div class="tier-filters" id="tier-filters">
+      <button class="tier-btn active" onclick="setTierFilter('all',this)">All</button>
+      <button class="tier-btn" onclick="setTierFilter(1,this)">I</button>
+      <button class="tier-btn" onclick="setTierFilter(2,this)">II</button>
+      <button class="tier-btn" onclick="setTierFilter(3,this)">III</button>
+      <button class="tier-btn" onclick="setTierFilter(4,this)">IV</button>
+      <button class="tier-btn" onclick="setTierFilter(5,this)">V</button>
+    </div>
+    <div class="elements-list" id="elements-list"></div>
+  </div>
+
+  <!-- CANVAS -->
+  <div class="canvas-wrap">
+    <div class="canvas-hint" id="canvas-hint">
+      <div class="big">✦</div>
+      Drag elements here &amp; combine them<br>
+      <small>Drop two onto each other to merge</small>
+    </div>
+    <div id="canvas"></div>
+
+    <!-- Loading overlay -->
+    <div class="merge-overlay" id="merge-overlay">
+      <div class="merge-spinner">
+        <div class="merge-elements" id="merge-anim-els"></div>
+        <div class="spinner-ring"></div>
+        <div class="merge-text" id="merge-anim-text">Merging…</div>
+      </div>
+    </div>
+
+    <!-- Canvas tools -->
+    <div class="canvas-tools">
+      <button class="ctool" onclick="clearCanvas()">🗑 Clear Board</button>
+      <button class="ctool" onclick="autoArrange()">⬡ Arrange</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT POPUP -->
+<div class="result-popup" id="result-popup">
+  <div class="popup-badge" id="popup-badge">New Element!</div>
+  <div class="popup-emoji" id="popup-emoji">✨</div>
+  <div class="popup-name" id="popup-name">Something</div>
+  <div class="popup-desc" id="popup-desc"></div>
+  <button class="popup-close" onclick="closePopup()">Add to Board ✦</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== STARS =====
+(function(){
+  const s = document.getElementById('stars');
+  for(let i=0;i<80;i++){
+    const d = document.createElement('div');
+    d.className='star';
+    const sz = Math.random()*2+0.5;
+    d.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--delay:${Math.random()*5}s;--max-op:${0.2+Math.random()*0.5}`;
+    s.appendChild(d);
+  }
+})();
+
+// ===== STATE =====
+const STARTERS = [
+  {name:'Fire',emoji:'🔥',tier:1},
+  {name:'Water',emoji:'💧',tier:1},
+  {name:'Earth',emoji:'🌍',tier:1},
+  {name:'Wind',emoji:'💨',tier:1},
+];
+
+let discovered = {}; // name -> element obj
+let canvasEls = []; // {id, name, emoji, x, y, el}
+let nextId = 1;
+let tierFilter = 'all';
+let pendingResult = null;
+
+const TIER_LABELS = ['','I','II','III','IV','V'];
+
+function loadGame(){
+  try {
+    const s = localStorage.getItem('cosmosCraft_v3');
+    if(s){
+      const d = JSON.parse(s);
+      discovered = d.discovered || {};
+      nextId = d.nextId || 1;
+    }
+  } catch(e){}
+  // always ensure starters
+  STARTERS.forEach(el=>{
+    if(!discovered[el.name]) discovered[el.name]={...el, discoveredAt: Date.now()};
+  });
+}
+
+function saveGame(){
+  localStorage.setItem('cosmosCraft_v3', JSON.stringify({discovered, nextId}));
+}
+
+function exportSave(){
+  const s = btoa(JSON.stringify({discovered, nextId}));
+  const blob = new Blob([s], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cosmosCraft_save.txt';
+  a.click();
+  showToast('Save exported!');
+}
+
+function importSave(){
+  const f = document.createElement('input');
+  f.type='file'; f.accept='.txt';
+  f.onchange = e=>{
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      try{
+        const d = JSON.parse(atob(ev.target.result));
+        discovered = d.discovered||{}; nextId=d.nextId||1;
+        saveGame(); renderSidebar(); updateStats();
+        showToast('Save loaded!');
+      }catch(e){ showToast('Invalid save file'); }
+    };
+    reader.readAsText(e.target.files[0]);
+  };
+  f.click();
+}
+
+function resetGame(){
+  if(!confirm('Reset all progress? This cannot be undone.')) return;
+  discovered={};
+  canvasEls=[];
+  nextId=1;
+  document.getElementById('canvas').innerHTML='';
+  STARTERS.forEach(el=>{ discovered[el.name]={...el, discoveredAt:Date.now()}; });
+  saveGame(); renderSidebar(); updateStats();
+  showToast('Game reset!');
+}
+
+// ===== SIDEBAR =====
+function renderSidebar(){
+  const list = document.getElementById('elements-list');
+  const q = document.getElementById('search').value.toLowerCase();
+  const els = Object.values(discovered).filter(e=>{
+    if(q && !e.name.toLowerCase().includes(q)) return false;
+    if(tierFilter!=='all' && e.tier!=tierFilter) return false;
+    return true;
+  }).sort((a,b)=>a.name.localeCompare(b.name));
+
+  list.innerHTML='';
+  els.forEach(el=>{
+    const d = document.createElement('div');
+    d.className='element-chip';
+    d.draggable=true;
+    d.dataset.name=el.name;
+    d.innerHTML=`<span class="el-emoji">${el.emoji}</span><span class="el-name">${el.name}</span><span class="el-tier tier-${el.tier}">${TIER_LABELS[el.tier]}</span>`;
+    d.ondragstart=e=>{
+      e.dataTransfer.setData('text/plain', el.name);
+      e.dataTransfer.effectAllowed='copy';
+    };
+    d.ondblclick=()=>spawnOnCanvas(el.name);
+    list.appendChild(d);
+  });
+
+  document.getElementById('el-count').textContent=Object.keys(discovered).length;
+  document.getElementById('stat-count').textContent=Object.keys(discovered).length;
+}
+
+function filterElements(){ renderSidebar(); }
+
+function setTierFilter(t, btn){
+  tierFilter=t;
+  document.querySelectorAll('.tier-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSidebar();
+}
+
+function updateStats(){
+  const els = Object.values(discovered);
+  document.getElementById('stat-count').textContent=els.length;
+  document.getElementById('stat-disc').textContent=Math.max(0,els.length-4);
+  const rarest = els.filter(e=>e.tier===5)[0]||els.filter(e=>e.tier===4)[0]||null;
+  document.getElementById('stat-rare').textContent = rarest?rarest.name:'—';
+}
+
+// ===== CANVAS =====
+const canvasEl = document.getElementById('canvas');
+const hint = document.getElementById('canvas-hint');
+let draggingId = null;
+let dragOffX = 0, dragOffY = 0;
+let dropTarget = null;
+
+canvasEl.addEventListener('dragover', e=>{ e.preventDefault(); e.dataTransfer.dropEffect='copy'; });
+canvasEl.addEventListener('drop', e=>{
+  e.preventDefault();
+  const name = e.dataTransfer.getData('text/plain');
+  if(!name || !discovered[name]) return;
+  const rect = canvasEl.getBoundingClientRect();
+  spawnOnCanvas(name, e.clientX-rect.left-35, e.clientY-rect.top-35);
+});
+
+function spawnOnCanvas(name, x, y){
+  const el = discovered[name];
+  if(!el) return;
+  const rect = canvasEl.getBoundingClientRect();
+  if(x===undefined) x=40+Math.random()*(rect.width-120);
+  if(y===undefined) y=40+Math.random()*(rect.height-120);
+
+  const id = nextId++;
+  const div = document.createElement('div');
+  div.className='canvas-el';
+  div.dataset.id=id;
+  div.dataset.name=name;
+  div.style.left=x+'px';
+  div.style.top=y+'px';
+  div.innerHTML=`<span class="cel-emoji">${el.emoji}</span><span class="cel-name">${el.name}</span><button class="del-btn" onclick="removeFromCanvas(${id})">×</button>`;
+
+  // Mouse drag
+  div.addEventListener('mousedown', startDrag);
+  canvasEl.appendChild(div);
+  canvasEls.push({id, name, x, y, div});
+  updateHint();
+}
+
+function removeFromCanvas(id){
+  const idx=canvasEls.findIndex(e=>e.id===id);
+  if(idx===-1) return;
+  canvasEls[idx].div.remove();
+  canvasEls.splice(idx,1);
+  updateHint();
+}
+
+function clearCanvas(){
+  canvasEls.forEach(e=>e.div.remove());
+  canvasEls=[];
+  updateHint();
+}
+
+function autoArrange(){
+  const cols=Math.ceil(Math.sqrt(canvasEls.length));
+  const rect=canvasEl.getBoundingClientRect();
+  const px=80, py=80;
+  canvasEls.forEach((e,i)=>{
+    const col=i%cols, row=Math.floor(i/cols);
+    const x=px+col*(120+20), y=py+row*(100+20);
+    e.x=x; e.y=y;
+    e.div.style.left=x+'px'; e.div.style.top=y+'px';
+  });
+}
+
+function updateHint(){
+  hint.style.opacity=canvasEls.length===0?'1':'0';
+}
+
+// Mouse drag logic
+let activeDrag = null;
+let startMX=0, startMY=0, startEX=0, startEY=0;
+
+document.addEventListener('mousemove', e=>{
+  if(!activeDrag) return;
+  const rect=canvasEl.getBoundingClientRect();
+  const nx=e.clientX-rect.left-(activeDrag.offX);
+  const ny=e.clientY-rect.top-(activeDrag.offY);
+  activeDrag.entry.x=nx;
+  activeDrag.entry.y=ny;
+  activeDrag.div.style.left=nx+'px';
+  activeDrag.div.style.top=ny+'px';
+  // Check proximity to other elements
+  checkProximity(activeDrag);
+});
+
+document.addEventListener('mouseup', e=>{
+  if(!activeDrag) return;
+  activeDrag.div.classList.remove('dragging');
+  // Check if dropped near another element
+  const hit = findOverlap(activeDrag);
+  if(hit){
+    mergeElements(activeDrag.entry, hit);
+  }
+  activeDrag=null;
+});
+
+function startDrag(e){
+  if(e.target.classList.contains('del-btn')) return;
+  e.preventDefault();
+  const div=e.currentTarget;
+  const id=parseInt(div.dataset.id);
+  const entry=canvasEls.find(c=>c.id===id);
+  if(!entry) return;
+  const rect=div.getBoundingClientRect();
+  const cr=canvasEl.getBoundingClientRect();
+  activeDrag={
+    entry, div,
+    offX: e.clientX-rect.left,
+    offY: e.clientY-rect.top
+  };
+  div.classList.add('dragging');
+  // bring to front
+  div.style.zIndex=1000;
+}
+
+function findOverlap(drag){
+  const THRESH=80;
+  const cx=drag.entry.x+35, cy=drag.entry.y+35;
+  for(const e of canvasEls){
+    if(e.id===drag.entry.id) continue;
+    const ex=e.x+35, ey=e.y+35;
+    const dist=Math.sqrt((cx-ex)**2+(cy-ey)**2);
+    if(dist<THRESH) return e;
+  }
+  return null;
+}
+
+function checkProximity(drag){
+  const hit=findOverlap(drag);
+  canvasEls.forEach(e=>{
+    if(e.id!==drag.entry.id) e.div.style.borderColor='';
+  });
+  if(hit) hit.div.style.borderColor='var(--gold)';
+}
+
+// ===== MERGE =====
+const mergeCache = {};
+
+async function mergeElements(a, b){
+  const key=[a.name,b.name].sort().join('+');
+
+  // Remove both from canvas
+  removeFromCanvas(a.id);
+  removeFromCanvas(b.id);
+
+  // Show loading
+  document.getElementById('merge-anim-els').textContent=
+    `${discovered[a.name]?.emoji||'?'} + ${discovered[b.name]?.emoji||'?'}`;
+  document.getElementById('merge-anim-text').textContent=`Merging ${a.name} & ${b.name}…`;
+  document.getElementById('merge-overlay').classList.add('active');
+
+  let result;
+  if(mergeCache[key]){
+    result=mergeCache[key];
+    await new Promise(r=>setTimeout(r,400));
+  } else {
+    result = await callClaude(a.name, b.name);
+    if(result) mergeCache[key]=result;
+  }
+
+  document.getElementById('merge-overlay').classList.remove('active');
+
+  if(!result){
+    showToast('⚠️ Merge failed — try again!');
+    spawnOnCanvas(a.name); spawnOnCanvas(b.name);
+    return;
+  }
+
+  const isNew = !discovered[result.name];
+  discovered[result.name] = {
+    name: result.name,
+    emoji: result.emoji,
+    tier: result.tier,
+    desc: result.desc,
+    discoveredAt: Date.now()
+  };
+  saveGame();
+  renderSidebar();
+  updateStats();
+
+  // Spawn result on canvas
+  const rect=canvasEl.getBoundingClientRect();
+  const rx=40+Math.random()*(rect.width-150);
+  const ry=40+Math.random()*(rect.height-120);
+  spawnOnCanvas(result.name, rx, ry);
+
+  // Show popup
+  showResultPopup(result, isNew);
+  spawnParticles(rx+35, ry+35, result.tier);
+}
+
+async function callClaude(a, b){
+  const prompt = `You are the engine for "Cosmos Craft", an element-crafting game like Infinite Craft but more epic. The player combined: "${a}" + "${b}".
+
+Respond ONLY with a JSON object (no markdown, no explanation):
+{
+  "name": "Element Name",
+  "emoji": "🔥",
+  "tier": 2,
+  "desc": "Short poetic description (max 15 words)"
+}
+
+Rules:
+- name: creative, thematic, 1-3 words. Can be cosmic, mythological, scientific, fantastical or pop culture
+- emoji: single relevant emoji
+- tier: 1=common, 2=uncommon, 3=rare, 4=epic, 5=legendary (based on how surprising/creative the result is)
+- desc: evocative short flavour text
+- Be creative and surprising! "${a}" + "${b}" should produce something thematic but unexpected
+- If combining two very advanced elements, tend toward tier 4-5
+- Never say "Nothing" — always create something interesting`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:200,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.map(c=>c.text||'').join('');
+    const clean = text.replace(/```json?|```/g,'').trim();
+    return JSON.parse(clean);
+  } catch(e){
+    console.error('Claude API error',e);
+    return null;
+  }
+}
+
+// ===== POPUP =====
+function showResultPopup(result, isNew){
+  document.getElementById('popup-emoji').textContent=result.emoji;
+  document.getElementById('popup-name').textContent=result.name;
+  document.getElementById('popup-desc').textContent=result.desc||'';
+  const badge=document.getElementById('popup-badge');
+  if(isNew){
+    badge.textContent='✨ First Discovery!';
+    badge.className='popup-badge first';
+    document.getElementById('result-popup').classList.add('first-discovery');
+  } else {
+    badge.textContent='Element Crafted';
+    badge.className='popup-badge';
+    document.getElementById('result-popup').classList.remove('first-discovery');
+  }
+  document.getElementById('result-popup').classList.add('show');
+  pendingResult=result;
+  setTimeout(closePopup, 3500);
+}
+
+function closePopup(){
+  document.getElementById('result-popup').classList.remove('show');
+}
+
+// ===== PARTICLES =====
+function spawnParticles(x,y,tier){
+  const colors = ['#7c5cfc','#fc5cf0','#f0c040','#40f0d0','#ffffff'];
+  const count = 8+tier*4;
+  for(let i=0;i<count;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const sz=3+Math.random()*5;
+    const angle=Math.random()*Math.PI*2;
+    const dist=40+Math.random()*120;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${x}px;top:${y}px;background:${colors[Math.floor(Math.random()*colors.length)]};--tx:${Math.cos(angle)*dist}px;--ty:${Math.sin(angle)*dist}px;--dur:${0.6+Math.random()*0.8}s`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(), 1500);
+  }
+}
+
+// ===== TOAST =====
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ===== INIT =====
+loadGame();
+renderSidebar();
+updateStats();
+</script>
+</body>
+</html>
